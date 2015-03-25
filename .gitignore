@@ -52,3 +52,7 @@ docs/_build/
 
 # PyBuilder
 target/
+.idea/vcs.xml
+*.name
+.idea/af_algorithms.iml
+*.xml
