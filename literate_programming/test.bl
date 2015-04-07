@@ -1,0 +1,88 @@
+this is a test of barely-literate programming.
+I'm afraid I can't find the developer tools CD
+for my PowerBook, so none of the code here has
+been tested.
+
+:: :: ::
+
+First, we try an old-timer program:
+
+@k & r
+>main(@formal names@)
+>@formal declarations@
+>{
+>	printf(@greetings@);
+>}
+>
+
+Not that we use them in this program (it is,
+after all, a constant function, cf. the 'K'
+combinator) but for nostalgia value, we have
+
+@formal names
+>argc, argv
+
+@formal declarations
+>int argc;
+>char *argv[];
+
+and, of course, we should specify the value
+which the function takes at all arguments:
+
+@greetings
+>"Hello, world\n"
+
+:: :: ::
+
+Now, let's rewrite this in a more modern style:
+
+@ansi
+>@external declarations@
+>
+>int main(@inline formal declarations@)
+>{
+>	printf(@greetings@);
+>	@more boilerplate...@
+>}
+>
+
+You'll notice that we have an 'int' in there.
+That's because once one has more than a few
+K of memory to play with during a compile, it
+turns out that silently assuming all params
+are machine words isn't the best tradeoff.
+
+Of course, now that we've declared that we're
+returning an int, we'd probably better do so:
+
+@more boilerplate...
+>return 0;
+
+We must declare the argument types as well
+as the return types:
+@inline formal declarations
+>int argc, char **argv, char **envp
+
+As in Pascal, the types are now specified in
+with the argument names.  One might expect
+that we'd need some additional bookkeeping
+for printf() as well as main(), but luckily
+(if one is not the preprocessor) this is a
+matter of including the proper header file.
+
+@external declarations
+>#include <stdio.h>
+
+:: :: ::
+
+To extract either of these two versions, use
+the following command lines:
+
+% python blit.py "k & r" < test.bl
+or
+% python blit.py "ansi" < test.bl
+
+(to get fancier, one might try piping output
+through "tcc -run", but it would probably be
+better to fill in the code sketched here and
+improve its robustness and input format)
